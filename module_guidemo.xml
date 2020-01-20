@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_guidemo" default="compile.module.guidemo">
+  <dirname property="module.guidemo.basedir" file="${ant.file.module_guidemo}"/>
+  
+  <property name="module.jdk.home.guidemo" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.guidemo" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.guidemo" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.guidemo" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="guidemo.output.dir" value="${module.guidemo.basedir}/out/production/GUIDemo"/>
+  <property name="guidemo.testoutput.dir" value="${module.guidemo.basedir}/out/test/GUIDemo"/>
+  
+  <path id="guidemo.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="guidemo.module.production.classpath">
+    <path refid="${module.jdk.classpath.guidemo}"/>
+    <fileset dir="${basedir}/libs">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <path refid="library.miglayout.classpath"/>
+    <pathelement location="${basedir}/src/java/practice/demoThree/libs/mysql-connector-java-5.1.39.jar"/>
+    <pathelement location="${basedir}/lib/mysql-connector-java-3.0.16-ga-bin.jar"/>
+    <pathelement location="${basedir}/lib/hutool-all-5.0.7.jar"/>
+    <path refid="library.mysql-connector-java-5.1.39.classpath"/>
+  </path>
+  
+  <path id="guidemo.runtime.production.module.classpath">
+    <pathelement location="${guidemo.output.dir}"/>
+    <fileset dir="${basedir}/libs">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <path refid="library.miglayout.classpath"/>
+    <pathelement location="${basedir}/src/java/practice/demoThree/libs/mysql-connector-java-5.1.39.jar"/>
+    <pathelement location="${basedir}/lib/mysql-connector-java-3.0.16-ga-bin.jar"/>
+    <pathelement location="${basedir}/lib/hutool-all-5.0.7.jar"/>
+    <path refid="library.mysql-connector-java-5.1.39.classpath"/>
+  </path>
+  
+  <path id="guidemo.module.classpath">
+    <path refid="${module.jdk.classpath.guidemo}"/>
+    <pathelement location="${guidemo.output.dir}"/>
+    <fileset dir="${basedir}/libs">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <path refid="library.miglayout.classpath"/>
+    <pathelement location="${basedir}/src/java/practice/demoThree/libs/mysql-connector-java-5.1.39.jar"/>
+    <pathelement location="${basedir}/lib/mysql-connector-java-3.0.16-ga-bin.jar"/>
+    <pathelement location="${basedir}/lib/hutool-all-5.0.7.jar"/>
+    <path refid="library.mysql-connector-java-5.1.39.classpath"/>
+  </path>
+  
+  <path id="guidemo.runtime.module.classpath">
+    <pathelement location="${guidemo.testoutput.dir}"/>
+    <pathelement location="${guidemo.output.dir}"/>
+    <fileset dir="${basedir}/libs">
+      <patternset refid="library.patterns"/>
+    </fileset>
+    <path refid="library.miglayout.classpath"/>
+    <pathelement location="${basedir}/src/java/practice/demoThree/libs/mysql-connector-java-5.1.39.jar"/>
+    <pathelement location="${basedir}/lib/mysql-connector-java-3.0.16-ga-bin.jar"/>
+    <pathelement location="${basedir}/lib/hutool-all-5.0.7.jar"/>
+    <path refid="library.mysql-connector-java-5.1.39.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.guidemo">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.guidemo">
+    <patternset refid="excluded.from.module.guidemo"/>
+  </patternset>
+  
+  <path id="guidemo.module.sourcepath">
+    <dirset dir="${module.guidemo.basedir}">
+      <include name="src/main/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.guidemo" depends="compile.module.guidemo.production,compile.module.guidemo.tests" description="Compile module GUIDemo"/>
+  
+  <target name="compile.module.guidemo.production" depends="register.custom.compilers" description="Compile module GUIDemo; production classes">
+    <mkdir dir="${guidemo.output.dir}"/>
+    <javac2 destdir="${guidemo.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.guidemo}/javac">
+      <compilerarg line="${compiler.args.guidemo}"/>
+      <bootclasspath refid="guidemo.module.bootclasspath"/>
+      <classpath refid="guidemo.module.production.classpath"/>
+      <src refid="guidemo.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.guidemo"/>
+    </javac2>
+    
+    <copy todir="${guidemo.output.dir}">
+      <fileset dir="${module.guidemo.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.guidemo.tests" depends="register.custom.compilers,compile.module.guidemo.production" description="compile module GUIDemo; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.guidemo" description="cleanup module">
+    <delete dir="${guidemo.output.dir}"/>
+    <delete dir="${guidemo.testoutput.dir}"/>
+  </target>
+</project>

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="GUIDemo:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GUIDemo_jar</output-path>
+    <root id="archive" name="GUIDemo.jar">
+      <element id="module-output" name="GUIDemo" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java-5.1.39.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hutool-all-5.0.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/miglayout-swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/miglayout-core.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
